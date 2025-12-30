@@ -1,15 +1,16 @@
 #回溯放这里，第二题的三个bound算法放这里，第一题的bfs放这里
 import math
-inf = math.inf 
+inf = math.inf
+from permutation import trotter_johnson_unrank
 
 
 def distance(path, graph):
     """Return the total distance of the given path."""
     dist_val = 0
     for i in range(len(path) - 1):
-        u = path[i]
-        v = path[i+1]
-        dist_val = dist_val + graph[u][v]
+        j = path[i]
+        k = path[i+1]
+        dist_val = dist_val + graph[j][k]
     return dist_val
 
 def iscycle(path, graph):
@@ -45,6 +46,31 @@ def two_minout(path,graph):
     r = r + total/2
 
     return r
+
+def factorial(n):
+    """Return the factorial of n."""
+    if n == 0:
+        return 1
+    else:
+        return n * factorial(n - 1)
+
+
+def brute_force_tsp(graph):
+    size = len(graph) - 1
+    min_weight = inf
+    best_path = []
+
+    for i in range(factorial(size)):
+        temp_list = trotter_johnson_unrank(size, i)#trotter_johnson_unrank(size, rank)
+        path = [0] + temp_list + [0]
+
+        if iscycle(path, graph):
+            weight = distance(path, graph)
+            if weight < min_weight:
+                min_weight = weight
+                best_path = path
+
+    return min_weight, best_path
 
 
 def backtracking(graph, path, shortest, best_path, bounding=minout):
