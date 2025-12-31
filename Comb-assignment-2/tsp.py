@@ -64,9 +64,10 @@ def brute_force_tsp(graph):
 
     for i in range(factorial(size)):
         temp_list = trotter_johnson_unrank(size, i)#trotter_johnson_unrank(size, rank)
-        path = [0] + temp_list + [0]
-
+        #path = [0] + temp_list + [0]
+        path = [0] + temp_list
         if iscycle(path, graph):
+            path = path + [0]
             weight = distance(path, graph)
             if weight < min_weight:
                 min_weight = weight
@@ -77,22 +78,6 @@ def brute_force_tsp(graph):
 
 
 
-def brute_force_tsp(graph):
-    size = len(graph) - 1
-    min_weight = inf
-    best_path = []
-
-    for i in range(factorial(size)):
-        temp_list = trotter_johnson_unrank(size, i)#trotter_johnson_unrank(size, rank)
-        path = [0] + temp_list + [0]
-
-        if iscycle(path, graph):
-            weight = distance(path, graph)
-            if weight < min_weight:
-                min_weight = weight
-                best_path = path
-
-    return min_weight, best_path
 
 
 def backtracking(graph, path=[0], shortest=inf, best_path=[], bounding=minout):
